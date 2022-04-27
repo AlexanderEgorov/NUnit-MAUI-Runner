@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<TargetFrameworks>net6.0-android;net6.0-ios</TargetFrameworks>
 		<OutputType>Library</OutputType>
 		<RootNamespace>NUnit.Maui.Runner</RootNamespace>
@@ -14,10 +15,10 @@
 		<ApplicationTitle>NUnit.Maui.Runner</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.janeysprings.nunit.maui.runner</ApplicationId>
+		<ApplicationId>com.springsoftware.nunit.maui.runner</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>1.2</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<!-- Required for C# Hot Reload -->
