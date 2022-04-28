@@ -6,7 +6,7 @@
     <license type="expression">MIT</license>
     <title>NUnit Runner for testing .NET MAUI</title>
     <authors>Nikita Romanov</authors>
-    <description>NUnit Runner for testing .NET MAUI</description>
+    <description>GitHub page with instruction: https://github.com/JaneySprings/NUnit-MAUI-Runner</description>
     <tags>NUnit MAUI .NET</tags>
     <dependencies>
       <group>
