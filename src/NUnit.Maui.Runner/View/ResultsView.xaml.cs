@@ -8,10 +8,15 @@ namespace NUnit.Runner.View {
             InitializeComponent();
 		}
 
-        internal async void ViewTest(object sender, SelectedItemChangedEventArgs e) {
-            var result = e.SelectedItem as ResultViewModel;
+        protected override void OnAppearing() {
+            base.OnAppearing();
+            collectionView.SelectedItem = null;
+        }
+
+        async void ViewTest(object sender, SelectionChangedEventArgs e) {
+            var result = e.CurrentSelection.FirstOrDefault() as ResultViewModel;
             if (result != null)
                 await Navigation.PushAsync(new TestView(new TestViewModel(result.TestResult)));
         }
-	}
+    }
 }

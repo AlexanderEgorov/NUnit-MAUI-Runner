@@ -6,32 +6,25 @@
              Padding="0"
              BackgroundColor="{DynamicResource defaultBackground}" >
     <StackLayout Orientation="Vertical" Spacing="4" BackgroundColor="{DynamicResource defaultBackground}" >
-        <ScrollView Orientation="Vertical"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand" >
-            <ListView ItemsSource="{Binding Results}"
-                      ItemSelected="ViewTest"
-                      VerticalOptions="FillAndExpand"
-                      HorizontalOptions="FillAndExpand"
-                      HasUnevenRows="true">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" BackgroundColor="White" Spacing="4" Padding="0">
-                                    <BoxView Color="{Binding Color}"
-                                           WidthRequest="10"
-                                           VerticalOptions="FillAndExpand"/>
-		                            <StackLayout Orientation="Vertical" Spacing="4" Padding="4" HorizontalOptions="StartAndExpand">
-		                                <Label Text="{Binding Name}" FontSize="Medium" />
-                                        <Label Text="{Binding Parent}" LineBreakMode="MiddleTruncation" TextColor="#4C4C4C" FontSize="Small" />
-		                            </StackLayout>
-                                </StackLayout>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </ScrollView>
+        <CollectionView x:Name="collectionView"
+                        ItemsSource="{Binding Results}"
+                        VerticalOptions="FillAndExpand"
+                        SelectionChanged="ViewTest"
+                        SelectionMode="Single"
+                        HorizontalOptions="FillAndExpand">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" BackgroundColor="White" Spacing="4" Padding="0">
+                        <BoxView Color="{Binding Color}"
+                                 WidthRequest="10"
+                                 VerticalOptions="FillAndExpand"/>
+                        <StackLayout Orientation="Vertical" Spacing="4" Padding="4" HorizontalOptions="StartAndExpand">
+                            <Label Text="{Binding Name}" FontSize="Medium" />
+                            <Label Text="{Binding Parent}" LineBreakMode="MiddleTruncation" TextColor="#4C4C4C" FontSize="Small" />
+                        </StackLayout>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </StackLayout>
 </ContentPage>
