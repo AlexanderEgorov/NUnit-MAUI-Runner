@@ -53,7 +53,7 @@ namespace NUnit.Runner.Services {
                 MessagingCenter.Send(new ErrorMessage($"Timeout connecting to {_info} after {_info.Timeout} seconds.\n\nIs your server running?"), ErrorMessage.Name);
             }
             catch (Exception ex) {
-                MessagingCenter.Send(new ErrorMessage(ex.Message), ErrorMessage.Name);
+                MessagingCenter.Send(new ErrorMessage($"Cannot connect to {_info}: {ex.Message}"), ErrorMessage.Name);
             }
 #endif
         }

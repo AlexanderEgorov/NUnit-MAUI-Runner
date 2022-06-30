@@ -13,15 +13,6 @@
                 <Setter Property="BackgroundColor" Value="#000000" />
             </Style>
 
-            <!-- Buttons -->
-            <Style TargetType="Button">
-                <Setter Property="BackgroundColor" Value="#005B0C" />
-                <Setter Property="BorderColor" Value="#005B0C" />
-                <Setter Property="BorderWidth" Value="1" />
-                <Setter Property="HeightRequest" Value="42" />
-                <Setter Property="TextColor" Value="White" />
-            </Style>
-
             <!-- Labels -->
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="#303030" />

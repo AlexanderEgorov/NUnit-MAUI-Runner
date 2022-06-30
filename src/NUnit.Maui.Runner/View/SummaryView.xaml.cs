@@ -12,7 +12,7 @@ namespace NUnit.Runner.View {
 			InitializeComponent();
 
             MessagingCenter.Subscribe<ErrorMessage>(this, ErrorMessage.Name, error => {
-                Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Error", error.Message, "OK"));
+                Dispatcher.Dispatch(() => errorElement.Text = error.Message);
             });
         }
 

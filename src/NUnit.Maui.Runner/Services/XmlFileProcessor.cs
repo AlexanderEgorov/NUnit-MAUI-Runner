@@ -23,13 +23,14 @@ namespace NUnit.Runner.Services {
             }
         }
 
+
         async Task WriteXmlResultFile(ResultSummary result) {
             string outputFolderName = Path.GetDirectoryName(Options.ResultFilePath);
 
             Directory.CreateDirectory(outputFolderName);
 
             using (var resultFileStream = new StreamWriter(Options.ResultFilePath, false)) {
-                var xml = result.GetTestXml().ToString();
+                var xml = ResultSummary.ToXml(result).ToString();
                 await resultFileStream.WriteAsync(xml);
             }
         }

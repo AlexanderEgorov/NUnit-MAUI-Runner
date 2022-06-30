@@ -17,9 +17,6 @@ public partial class App : Application {
 
         _model = new SummaryViewModel();
         MainPage = new NavigationPage(new SummaryView(_model));
-#if !NETFX_CORE
-        AddTestAssembly(Assembly.GetCallingAssembly());
-#endif
         Options = config.ProvideOption();
         foreach (Assembly testItem in config.ProvideAssemblies()) {
             AddTestAssembly(testItem);

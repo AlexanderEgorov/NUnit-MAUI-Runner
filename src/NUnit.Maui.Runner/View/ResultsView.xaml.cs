@@ -16,7 +16,7 @@ namespace NUnit.Runner.View {
         async void ViewTest(object sender, SelectionChangedEventArgs e) {
             var result = e.CurrentSelection.FirstOrDefault() as ResultViewModel;
             if (result != null)
-                await Navigation.PushAsync(new TestView(new TestViewModel(result.TestResult)));
+                await Navigation.PushAsync(new TestView(result));
         }
     }
 }

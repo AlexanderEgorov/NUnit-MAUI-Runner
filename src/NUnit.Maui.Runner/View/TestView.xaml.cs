@@ -2,7 +2,7 @@
 
 namespace NUnit.Runner.View {
     public partial class TestView : ContentPage {
-		internal TestView(TestViewModel model) {
+		internal TestView(ResultViewModel model) {
             BindingContext = model;
             InitializeComponent();
 		}

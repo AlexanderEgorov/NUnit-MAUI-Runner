@@ -7,8 +7,7 @@ using NUnit.Runner.Extensions;
 namespace NUnit.Runner.Helpers {
     internal class ResultSummary {
         private readonly TestRunResult _results;
-        private XDocument _xmlResults;
-
+        
         #region Constructor
 
         public ResultSummary(TestRunResult results) {
@@ -22,42 +21,47 @@ namespace NUnit.Runner.Helpers {
         #endregion
 
         #region Public Methods
-        public IReadOnlyCollection<ITestResult> GetTestResults() {
-            return _results.TestResults;
+        public IEnumerable<ITestResult> GetAllResults() {
+            IEnumerable<ITestResult> Flatten(IEnumerable<ITestResult> tests) {
+                foreach(var test in tests) {
+                    if(!test.Test.IsSuite) yield return test;
+                    foreach(var children in Flatten(test.Children))
+                        yield return children;
+                }
+            }
+            return Flatten(_results.TestResults);
+        }
+        public IEnumerable<ITestResult> GetFailedResults() {
+            return GetAllResults().Where(x => x.ResultState.Status == TestStatus.Failed);
         }
 
-        public XDocument GetTestXml() {
-            if (_xmlResults != null)
-                return _xmlResults;
-
+        public static XDocument ToXml(ResultSummary x) {
             var test = new XElement("test-run");
             test.Add(new XAttribute("id", "0"));
-            test.Add(new XAttribute("testcasecount", TestCount));
-            test.Add(new XAttribute("total", TestCount));
-            test.Add(new XAttribute("passed", PassCount));
-            test.Add(new XAttribute("failed", FailureCount));
-            test.Add(new XAttribute("inconclusive", InconclusiveCount));
-            test.Add(new XAttribute("skipped", SkipCount));
-            test.Add(new XAttribute("asserts", AssertCount));
-            test.Add(new XAttribute("result", OverallResult));
+            test.Add(new XAttribute("testcasecount", x.TestCount));
+            test.Add(new XAttribute("total", x.TestCount));
+            test.Add(new XAttribute("passed", x.PassCount));
+            test.Add(new XAttribute("failed", x.FailureCount));
+            test.Add(new XAttribute("inconclusive", x.InconclusiveCount));
+            test.Add(new XAttribute("skipped", x.SkipCount));
+            test.Add(new XAttribute("asserts", x.AssertCount));
+            test.Add(new XAttribute("result", x.OverallResult));
 
             test.Add(new XAttribute("xamarin-runner-version", typeof(ResultSummary).GetTypeInfo().Assembly.GetName().Version.ToString()));
 
-            var startTime = _results.StartTime;
-            var endTime = _results.EndTime;
+            var startTime = x._results.StartTime;
+            var endTime = x._results.EndTime;
             var duration = endTime.Subtract(startTime).TotalSeconds;
 
             test.Add(new XAttribute("start-time", startTime.ToString("u")));
             test.Add(new XAttribute("end-time", endTime.ToString("u")));
             test.Add(new XAttribute("duration", duration.ToString("0.000000", NumberFormatInfo.InvariantInfo)));
 
-            foreach (var result in _results.TestResults)
+            foreach(var result in x._results.TestResults)
                 test.Add(XElement.Parse(result.ToXml(true).OuterXml));
 
-            _xmlResults = new XDocument(test);
-            return _xmlResults;
+            return new XDocument(test);
         }
-
         #endregion
 
         #region Properties

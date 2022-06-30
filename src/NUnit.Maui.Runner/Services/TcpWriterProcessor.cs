@@ -25,7 +25,7 @@ namespace NUnit.Runner.Services {
         private async Task WriteResult(ResultSummary testResult) {
             using (var tcpWriter = new TcpWriter(Options.TcpWriterParameters)) {
                 await tcpWriter.Connect().ConfigureAwait(false);
-                tcpWriter.Write(testResult.GetTestXml());
+                tcpWriter.Write(ResultSummary.ToXml(testResult));
             }
         }
     }
