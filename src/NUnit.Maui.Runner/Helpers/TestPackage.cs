@@ -11,22 +11,17 @@ namespace NUnit.Runner.Helpers {
             _testAssemblies.Add( (testAssembly, options) );
         }
 
-        public async Task<TestRunResult> ExecuteTests(TestFilter filter, IProgress<double> progress) {
+        public async Task<TestRunResult> ExecuteTests(TestFilter filter, IProgress<(double progress, string testName)> progress) {
             var resultPackage = new TestRunResult();
 
             foreach (var (assembly,options) in _testAssemblies) {
                 NUnitTestAssemblyRunner runner = await LoadTestAssemblyAsync(assembly, options).ConfigureAwait(false);
 
                 int testsCount = runner.CountTestCases(filter);
-                int completedTests = 0;
-                double currentProgress = 0;
-                var progressListener = new TestListener(() => {
+                double completedTests = 0;
+                var progressListener = new TestListener(x => {
+                    progress.Report((completedTests / testsCount, x));
                     completedTests++;
-                    double _p = completedTests / (double)testsCount;
-                    if(_p - currentProgress > 0.01) {
-                        currentProgress = _p;
-                        progress.Report(currentProgress);
-                    }
                 });
 
                 ITestResult result = await Task.Run(() => runner.Run(progressListener, filter)).ConfigureAwait(false);
@@ -43,16 +38,16 @@ namespace NUnit.Runner.Helpers {
         }
 
         class TestListener : ITestListener {
-            Action onTestFinished;
-            public TestListener(Action onTestFinished) {
-                this.onTestFinished = onTestFinished;
+            Action<string> testStarted;
+            public TestListener(Action<string> testStarted) {
+                this.testStarted = testStarted;
             }
             public void SendMessage(TestMessage message) { }
-            public void TestFinished(ITestResult result) {
-                this.onTestFinished();
-            }
+            public void TestFinished(ITestResult result) { }
             public void TestOutput(TestOutput output) { }
-            public void TestStarted(ITest test) { }
+            public void TestStarted(ITest test) {
+                this.testStarted($"{test.Parent.Name}.{test.Name}");
+            }
         }
     }
 }

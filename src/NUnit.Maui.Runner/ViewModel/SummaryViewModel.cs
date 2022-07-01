@@ -13,12 +13,14 @@ namespace NUnit.Runner.ViewModel {
         ResultSummary _results;
         bool _running;
         double _progress = 0;
+        string _filter;
+        string _executingTest;
         TestResultProcessor _resultProcessor;
 
         public SummaryViewModel() {
             _testPackage = new TestPackage();
-            RunAllTestsCommand = new Command(
-                async o => await RunAllTestsAsync(),
+            RunTestsCommand = new Command(
+                async o => await RunTestsAsync(),
                 o => !Running);
             RunFailedTestsCommand = new Command(
                 async o => await RunFailedTestsAsync(),
@@ -41,6 +43,7 @@ namespace NUnit.Runner.ViewModel {
             }
             set {
                 options = value;
+                Filter = options?.Filter;
             }
         }
         public ResultSummary Results {
@@ -58,7 +61,7 @@ namespace NUnit.Runner.ViewModel {
                 if (value.Equals(_running)) return;
                 _running = value;
                 OnPropertyChanged();
-                RunAllTestsCommand.ChangeCanExecute();
+                RunTestsCommand.ChangeCanExecute();
                 RunFailedTestsCommand.ChangeCanExecute();
                 ViewAllResultsCommand.ChangeCanExecute();
                 ViewFailedResultsCommand.ChangeCanExecute();
@@ -73,8 +76,24 @@ namespace NUnit.Runner.ViewModel {
                 OnPropertyChanged();
             }
         }
+        public string Filter {
+            get => _filter;
+            set {
+                if(_filter == value) return;
+                _filter = value;
+                OnPropertyChanged();
+            }
+        }
+        public string ExecutingTest {
+            get => _executingTest;
+            set {
+                if(_executingTest == value) return;
+                _executingTest = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public Command RunAllTestsCommand { set; get; }
+        public Command RunTestsCommand { set; get; }
         public Command RunFailedTestsCommand { set; get; }
         public Command ViewAllResultsCommand { set; get; }
         public Command ViewFailedResultsCommand { set; get; }
@@ -83,19 +102,23 @@ namespace NUnit.Runner.ViewModel {
             if(Options.AutoRun) {
                 // Don't rerun if we navigate back
                 Options.AutoRun = false;
-                await RunAllTestsAsync();
+                await RunTestsAsync();
                 return;
             }
-
-
         }
 
         internal void AddTest(Assembly testAssembly, Dictionary<string, object> options = null) {
             _testPackage.AddAssembly(testAssembly, options);
         }
 
-        async Task RunAllTestsAsync() {
-            await RunTestsCoreAsync(TestFilter.Empty);
+        async Task RunTestsAsync() {
+            TestFilter filter = TestFilter.Empty;
+            if(!string.IsNullOrEmpty(Filter)) {
+                filter = new DelegateTestFilter(x => {
+                    return x.FullName.Contains(Filter, StringComparison.OrdinalIgnoreCase);
+                });
+            }
+            await RunTestsCoreAsync(filter);
         }
         async Task RunFailedTestsAsync() {
             var set = Results.GetFailedResults().Select(x => x.FullName).ToHashSet();
@@ -108,9 +131,10 @@ namespace NUnit.Runner.ViewModel {
         async Task RunTestsCoreAsync(TestFilter filter) {
             Running = true;
             Results = null;
-
-            var progress = new Progress<double>(x => Progress = x);
-            TestRunResult results = await _testPackage.ExecuteTests(filter, progress);
+            TestRunResult results = await _testPackage.ExecuteTests(filter, new Progress<(double progress, string testName)>(x => {
+                Progress = x.progress;
+                ExecutingTest = x.testName;
+            }));
             ResultSummary summary = new ResultSummary(results);
 
             _resultProcessor = TestResultProcessor.BuildChainOfResponsability(Options);
@@ -120,6 +144,7 @@ namespace NUnit.Runner.ViewModel {
                 Results = summary;
                 Running = false;
                 Progress = 0;
+                ExecutingTest = null;
 
                 if (Options.TerminateAfterExecution)
                     TerminateWithSuccess();

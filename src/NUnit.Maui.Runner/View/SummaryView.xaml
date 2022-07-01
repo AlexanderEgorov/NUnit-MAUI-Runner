@@ -16,16 +16,16 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ProgressBar Progress="{Binding Progress}" />
-        <Button Grid.Row="1" Text="Run" Command="{Binding RunAllTestsCommand}" />
-        <Button Grid.Row="2" Text="Run Failed" Command="{Binding RunFailedTestsCommand}" />
-        <Button Grid.Row="3" Text="All Results" Command="{Binding ViewAllResultsCommand}" />
-        <Button Grid.Row="4" Text="Failed Results" Command="{Binding ViewFailedResultsCommand}" />
+        <Button Grid.Row="0" Text="Run" Command="{Binding RunTestsCommand}" />
+        <Button Grid.Row="1" Text="Run Failed" Command="{Binding RunFailedTestsCommand}" />
+        <Button Grid.Row="2" Text="All Results" Command="{Binding ViewAllResultsCommand}" />
+        <Button Grid.Row="3" Text="Failed Results" Command="{Binding ViewFailedResultsCommand}" />
 
-        <ScrollView Grid.Row="5"
+        <ScrollView Grid.Row="4"
                     Orientation="Vertical"
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"
@@ -179,5 +179,8 @@
                        LineBreakMode="CharacterWrap" HorizontalOptions="Fill" VerticalOptions="FillAndExpand"/>
             </Grid>
         </ScrollView>
+
+        <Label Grid.Row="5" Text="{Binding ExecutingTest}" FontSize="Small"/>
+        <ProgressBar Grid.Row="6" Progress="{Binding Progress}" />
     </Grid>
 </ContentPage>

@@ -10,12 +10,11 @@ namespace NUnit.Runner.View {
 		    _model.Navigation = Navigation;
 		    BindingContext = _model;
 			InitializeComponent();
-
+            
             MessagingCenter.Subscribe<ErrorMessage>(this, ErrorMessage.Name, error => {
                 Dispatcher.Dispatch(() => errorElement.Text = error.Message);
             });
         }
-
         protected override void OnAppearing() {
             base.OnAppearing();
             _model.OnAppearing();
