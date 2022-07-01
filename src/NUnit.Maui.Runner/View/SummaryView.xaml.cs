@@ -10,12 +10,11 @@ namespace NUnit.Runner.View {
 		    _model.Navigation = Navigation;
 		    BindingContext = _model;
 			InitializeComponent();
-
+            
             MessagingCenter.Subscribe<ErrorMessage>(this, ErrorMessage.Name, error => {
-                Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Error", error.Message, "OK"));
+                Dispatcher.Dispatch(() => errorElement.Text = error.Message);
             });
         }
-
         protected override void OnAppearing() {
             base.OnAppearing();
             _model.OnAppearing();

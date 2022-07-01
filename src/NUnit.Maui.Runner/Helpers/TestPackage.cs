@@ -11,12 +11,20 @@ namespace NUnit.Runner.Helpers {
             _testAssemblies.Add( (testAssembly, options) );
         }
 
-        public async Task<TestRunResult> ExecuteTests() {
+        public async Task<TestRunResult> ExecuteTests(TestFilter filter, IProgress<(double progress, string testName)> progress) {
             var resultPackage = new TestRunResult();
 
             foreach (var (assembly,options) in _testAssemblies) {
                 NUnitTestAssemblyRunner runner = await LoadTestAssemblyAsync(assembly, options).ConfigureAwait(false);
-                ITestResult result = await Task.Run(() => runner.Run(TestListener.NULL, TestFilter.Empty)).ConfigureAwait(false);
+
+                int testsCount = runner.CountTestCases(filter);
+                double completedTests = 0;
+                var progressListener = new TestListener(x => {
+                    progress.Report((completedTests / testsCount, x));
+                    completedTests++;
+                });
+
+                ITestResult result = await Task.Run(() => runner.Run(progressListener, filter)).ConfigureAwait(false);
                 resultPackage.AddResult(result);
             }
             resultPackage.CompleteTestRun();
@@ -27,6 +35,19 @@ namespace NUnit.Runner.Helpers {
             var runner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
             await Task.Run(() => runner.Load(assembly, options ?? new Dictionary<string, object>()));
             return runner;
+        }
+
+        class TestListener : ITestListener {
+            Action<string> testStarted;
+            public TestListener(Action<string> testStarted) {
+                this.testStarted = testStarted;
+            }
+            public void SendMessage(TestMessage message) { }
+            public void TestFinished(ITestResult result) { }
+            public void TestOutput(TestOutput output) { }
+            public void TestStarted(ITest test) {
+                this.testStarted($"{test.Parent.Name}.{test.Name}");
+            }
         }
     }
 }
