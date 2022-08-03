@@ -37,8 +37,10 @@ Task("NugetPack")
 Task("NugetPush")
     .Does(() => {
         string key = FileReadText(".key");
-        //var publisher = new NuGetPusher();
-        //publisher.Push();
+        NuGetPush($"./NUnit.Maui.Runner.{version}.0.nupkg", new NuGetPushSettings {
+            Source = "https://api.nuget.org/v3/index.json",
+            ApiKey = key
+        });
     });
 
 RunTarget(target);
