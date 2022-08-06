@@ -2,185 +2,91 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NUnit.Runner.View.SummaryView"
-             Title="NUnit 3"
-             Padding="10"
-             BackgroundColor="{DynamicResource defaultBackground}">
+             Title="Summary">
     <ContentPage.Triggers>
         <DataTrigger TargetType="ContentPage" Binding="{Binding Running}" Value="True">
             <Setter Property="IsBusy" Value="True" />
         </DataTrigger>
     </ContentPage.Triggers>
-    <Grid RowSpacing="4">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Button Grid.Row="0" Text="Run" Command="{Binding RunTestsCommand}" />
-        <Button Grid.Row="1" Text="Run Failed" Command="{Binding RunFailedTestsCommand}" />
-        <Button Grid.Row="2" Text="All Results" Command="{Binding ViewAllResultsCommand}" />
-        <Button Grid.Row="3" Text="Failed Results" Command="{Binding ViewFailedResultsCommand}" />
-
-        <ScrollView Grid.Row="4"
-                    Orientation="Vertical"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"
-                    BackgroundColor="#F2F2F2">
-
-            <Grid HorizontalOptions="FillAndExpand" RowSpacing="0" Padding="10" BackgroundColor="White">
-                <Grid.Triggers>
-                    <DataTrigger TargetType="Grid" Binding="{Binding HasResults}" Value="False">
-                        <Setter Property="IsVisible" Value="False" />
-                    </DataTrigger>
-                </Grid.Triggers>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <!-- Rows with height of 10 are just for spacing between sections -->
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="10" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="10" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="10" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" ColumnSpacing="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Label Text="Overall result:" TextColor="{Binding Results.OverallResultColor}" FontAttributes="Bold" FontSize="Large"/>
-                    <Label Grid.Column="1" Text="{Binding Results.OverallResult}" TextColor="{Binding Results.OverallResultColor}" FontAttributes="Bold" FontSize="Large" />
-                </Grid>
-
-                <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ColumnSpacing="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Text="Tests run:" FontSize="Large" FontAttributes="Bold" />
-                    <Label Grid.Column="1" Text="{Binding Results.RunCount}" FontSize="Large" />
-                </Grid>
-
-                <Grid Grid.Row="3" Grid.Column="0" ColumnSpacing="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Text="  Passed:" FontSize="Medium" FontAttributes="Bold" />
-                    <Label Grid.Column="1" Text="{Binding Results.PassCount}" FontSize="Medium" />
-                </Grid>
-                <Grid Grid.Row="3" Grid.Column="1" ColumnSpacing="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Text="  Errors:" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Start" />
-                    <Label Grid.Column="1" Text="{Binding Results.ErrorCount}" FontSize="Medium" HorizontalOptions="Fill" />
-                </Grid>
-                <Grid Grid.Row="4" Grid.Column="0" ColumnSpacing="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Text="  Inconclusive:" FontSize="Medium" FontAttributes="Bold" />
-                    <Label Grid.Column="1" Text="{Binding Results.InconclusiveCount}" FontSize="Medium" />
-                </Grid>
-                <Grid Grid.Row="4" Grid.Column="1" ColumnSpacing="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Text="  Failures:" FontSize="Medium" FontAttributes="Bold" />
-                    <Label Grid.Column="1" Text="{Binding Results.FailureCount}" FontSize="Medium" />
-                </Grid>
-
-                <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" ColumnSpacing="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Text="Not run:" FontSize="Large" FontAttributes="Bold" />
-                    <Label Grid.Column="1" Text="{Binding Results.NotRunCount}" FontSize="Large" />
-                </Grid>
-                <Grid Grid.Row="7" Grid.Column="0" ColumnSpacing="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Text="  Ignored:" FontSize="Medium" FontAttributes="Bold" />
-                    <Label Grid.Column="1" Text="{Binding Results.IgnoreCount}" FontSize="Medium" />
-                </Grid>
-                <Grid Grid.Row="7" Grid.Column="1" ColumnSpacing="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Text="  Explicit:" FontSize="Medium" FontAttributes="Bold" />
-                    <Label Grid.Column="1" Text="{Binding Results.ExplicitCount}" FontSize="Medium" />
-                </Grid>
-                <Grid Grid.Row="8" Grid.Column="0" ColumnSpacing="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Text="  Skipped:" FontSize="Medium" FontAttributes="Bold" />
-                    <Label Grid.Column="1" Text="{Binding Results.SkipCount}" FontSize="Medium" />
-                </Grid>
-                <Grid Grid.Row="8" Grid.Column="1" ColumnSpacing="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Text="  Invalid:" FontSize="Medium" FontAttributes="Bold" />
-                    <Label Grid.Column="1" Text="{Binding Results.InvalidCount}" FontSize="Medium" />
-                </Grid>
-                
-                <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" ColumnSpacing="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Text="Start time:" FontSize="Small" FontAttributes="Bold" />
-                    <Label Grid.Column="1" Text="{Binding Results.StartTime, StringFormat='{0:u}'}" FontSize="Small" />
-                </Grid>
-                <Grid Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" ColumnSpacing="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Text="End time:" FontSize="Small" FontAttributes="Bold" />
-                    <Label Grid.Column="1" Text="{Binding Results.EndTime, StringFormat='{0:u}'}" FontSize="Small" />
-                </Grid>
-                <Grid Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2" ColumnSpacing="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Text="Duration:" FontSize="Small" FontAttributes="Bold" />
-                    <Label Grid.Column="1" Text="{Binding Results.Duration, StringFormat='{0:s\\.fff} seconds'}" FontSize="Small" />
-                </Grid>
-                <Label x:Name="errorElement" Grid.Row="13" Grid.ColumnSpan="2" Margin="0,10,0,0" FontSize="Small" TextColor="Red"
-                       LineBreakMode="CharacterWrap" HorizontalOptions="Fill" VerticalOptions="FillAndExpand"/>
-            </Grid>
-        </ScrollView>
-
-        <Label Grid.Row="5" Text="{Binding ExecutingTest}" FontSize="Small"/>
-        <ProgressBar Grid.Row="6" Progress="{Binding Progress}" />
-    </Grid>
+    
+    <ContentPage.Content>
+        <Grid BackgroundColor="{StaticResource ForegroundColor}">
+            <ScrollView>
+                <!-- Content -->
+                <VerticalStackLayout>
+                    <BoxView Style="{StaticResource Divider}"
+                             Margin="16,0"/>
+                    
+                    <Label Style="{StaticResource SummaryLabel}"
+                           HorizontalOptions="Center"
+                           Margin="16,24,16,6"
+                           Text="{Binding Results.RunCount}"/>
+                    <Label Style="{StaticResource CaptionLabel}"
+                           HorizontalOptions="Center"
+                           Text="{Binding Results.Duration, StringFormat='Total tests in an {0:s\\.fff}s'}"/>
+                    
+                    <!-- Overall results -->
+                    <Label Style="{StaticResource SectionLabel}"
+                           Margin="0,24"
+                           HorizontalOptions="Fill"
+                           Text="{Binding Results.OverallResult, StringFormat='Overall result: {0}'}"/>
+                    <Grid ColumnDefinitions="*,Auto,*">
+                        <BoxView Style="{StaticResource DividerVertical}" Grid.Column="1"/>
+                        <VerticalStackLayout Grid.Column="2" Spacing="10">
+                            <!-- Passed -->
+                            <Grid ColumnDefinitions="*,Auto,*">
+                                <Label Text="{Binding Results.PassCount}" Margin="8,0,0,0" Grid.Column="0"/>
+                                <Ellipse Style="{StaticResource RoundIcon}" Grid.Column="1" Fill="{StaticResource PassedColor}"/>
+                                <Label Text="Passed" Grid.Column="2"/>
+                            </Grid>
+                            <!-- Errors -->
+                            <Grid ColumnDefinitions="*,Auto,*">
+                                <Label Text="{Binding Results.ErrorCount}" Margin="8,0,0,0" Grid.Column="0"/>
+                                <Ellipse Style="{StaticResource RoundIcon}" Grid.Column="1" Fill="{StaticResource ErrorColor}"/>
+                                <Label Text="Errors" Grid.Column="2"/>
+                            </Grid>
+                            <!-- Failures -->
+                            <Grid ColumnDefinitions="*,Auto,*">
+                                <Label Text="{Binding Results.FailureCount}" Margin="8,0,0,0" Grid.Column="0"/>
+                                <Ellipse Style="{StaticResource RoundIcon}" Grid.Column="1" Fill="{StaticResource FailureColor}"/>
+                                <Label Text="Failures" Grid.Column="2"/>
+                            </Grid>
+                            <!-- Not run -->
+                            <Grid ColumnDefinitions="*,Auto,*">
+                                <Label Text="{Binding Results.NotRunCount}" Margin="8,0,0,0" Grid.Column="0"/>
+                                <Ellipse Style="{StaticResource RoundIcon}" Grid.Column="1" Fill="{StaticResource IgnoredColor}"/>
+                                <Label Text="Not run" Grid.Column="2"/>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Grid>
+                    
+                    <!-- Errors -->
+                    <Label x:Name="errorElement"
+                           Margin="16"
+                           TextColor="{StaticResource FailureColor}"/>
+                        
+                    <!-- Buttons -->
+                    <Grid ColumnDefinitions="*,*"
+                          RowDefinitions="Auto,Auto">
+                        <Button Text="Run" Command="{Binding RunTestsCommand}" Grid.Row="0" Grid.Column="0" />
+                        <Button Text="Run Failed" Command="{Binding RunFailedTestsCommand}" Grid.Row="1" Grid.Column="0"  />
+                        <Button Text="All Results" Command="{Binding ViewAllResultsCommand}" Grid.Row="0" Grid.Column="1"  />
+                        <Button Text="Failed Results" Command="{Binding ViewFailedResultsCommand}" Grid.Row="1" Grid.Column="1" />
+                    </Grid>
+                    
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <!-- Progress -->
+            <VerticalStackLayout VerticalOptions="End" 
+                                 Padding="16,0" 
+                                 BackgroundColor="{StaticResource ForegroundColor}">
+                <BoxView Style="{StaticResource Divider}" Margin="0,0,0,8"/>
+                <Label Text="{Binding ExecutingTest}"/>
+                <ProgressBar Progress="{Binding Progress}"
+                             ProgressColor="{StaticResource AccentColor}"
+                             BackgroundColor="{StaticResource ForegroundColor}"/>
+            </VerticalStackLayout>
+        </Grid>
+    </ContentPage.Content>
 </ContentPage>

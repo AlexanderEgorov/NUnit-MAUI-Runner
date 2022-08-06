@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Color x:Key="ForegroundColor">#FFFFFF</Color>
+    <Color x:Key="BackgroundColor">#EAEAEA</Color>
+    <Color x:Key="AccentColor">#6750A4</Color>
+    <Color x:Key="TitleTextColor">#2F2F2F</Color>
+    <Color x:Key="HeaderTextColor">#737373</Color>
+    
+    <Color x:Key="PassedColor">#4A7632</Color>
+    <Color x:Key="ErrorColor">#E1AEAC</Color>
+    <Color x:Key="FailureColor">#BA3B2A</Color>
+    
+    <Color x:Key="InvalidColor">#808B96</Color>
+    <Color x:Key="SkippedColor">#FCF3CF</Color>
+    <Color x:Key="IgnoredColor">#CCD1D1</Color>
+    
+    <Style TargetType="NavigationPage">
+        <Setter Property="BarBackgroundColor" Value="{StaticResource ForegroundColor}"/>
+        <Setter Property="BarTextColor" Value="{StaticResource TitleTextColor}"/>
+    </Style>
+    
+    <Style x:Key="SummaryLabel" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource HeaderTextColor}"/>
+        <Setter Property="FontSize" Value="38"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+    
+    <Style x:Key="CaptionLabel" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource HeaderTextColor}"/>
+        <Setter Property="FontSize" Value="15"/>
+    </Style>
+    
+    <Style x:Key="SectionLabel" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource HeaderTextColor}"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="15"/>
+    </Style>
+    
+    <Style TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource TitleTextColor}"/>
+        <Setter Property="FontSize" Value="15"/>
+    </Style>
+    
+    <Style x:Key="Divider" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="1"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}"/>
+    </Style>
+    
+    <Style x:Key="DividerVertical" TargetType="BoxView">
+        <Setter Property="WidthRequest" Value="1"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}"/>
+    </Style>
+    
+    <Style x:Key="RoundIcon" TargetType="Ellipse">
+        <Setter Property="WidthRequest" Value="18" />
+        <Setter Property="HeightRequest" Value="18" />
+        <Setter Property="Margin" Value="8,0"/>
+    </Style>
+    
+    <Style TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{StaticResource AccentColor}" />
+        <Setter Property="Margin" Value="0,0"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+    
+</ResourceDictionary>
