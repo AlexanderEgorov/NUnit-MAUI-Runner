@@ -10,7 +10,8 @@ namespace NUnit.Runner.View {
 		    _model.Navigation = Navigation;
 		    BindingContext = _model;
 			InitializeComponent();
-            
+
+            _model.Completed += (sender, args) => { chart.UpdateChart(); };
             MessagingCenter.Subscribe<ErrorMessage>(this, ErrorMessage.Name, error => {
                 Dispatcher.Dispatch(() => errorElement.Text = error.Message);
             });

@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:NUnit.Runner.View"
              x:Class="NUnit.Runner.View.SummaryView"
              Title="Summary">
     <ContentPage.Triggers>
@@ -20,7 +21,7 @@
                     <Label Style="{StaticResource SummaryLabel}"
                            HorizontalOptions="Center"
                            Margin="16,24,16,6"
-                           Text="{Binding Results.RunCount}"/>
+                           Text="{Binding Results.TestCount}"/>
                     <Label Style="{StaticResource CaptionLabel}"
                            HorizontalOptions="Center"
                            Text="{Binding Results.Duration, StringFormat='Total tests in an {0:s\\.fff}s'}"/>
@@ -31,6 +32,10 @@
                            HorizontalOptions="Fill"
                            Text="{Binding Results.OverallResult, StringFormat='Overall result: {0}'}"/>
                     <Grid ColumnDefinitions="*,Auto,*">
+                        <local:ChartControl Grid.Column="0"
+                                            x:Name="chart"
+                                            HorizontalOptions="Center"
+                                            Series="{Binding Results}"/>
                         <BoxView Style="{StaticResource DividerVertical}" Grid.Column="1"/>
                         <VerticalStackLayout Grid.Column="2" Spacing="10">
                             <!-- Passed -->

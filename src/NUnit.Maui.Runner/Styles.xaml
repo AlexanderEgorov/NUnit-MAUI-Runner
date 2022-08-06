@@ -71,4 +71,9 @@
         <Setter Property="FontAttributes" Value="Bold"/>
     </Style>
     
+    <Style TargetType="Polyline">
+        <Setter Property="StrokeLineJoin" Value="Round" />
+        <Setter Property="StrokeThickness" Value="12" />
+    </Style>
+    
 </ResourceDictionary>

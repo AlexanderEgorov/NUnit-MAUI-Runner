@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework.Interfaces;
 
 namespace NUnit.Runner.Helpers {
-    internal class TestRunResult {
+    public class TestRunResult {
         private readonly List<ITestResult> _results = new List<ITestResult>();
 
         public DateTime StartTime { get; private set; }

@@ -53,6 +53,7 @@ namespace NUnit.Runner.ViewModel {
                 _results = value;
                 OnPropertyChanged();
                 OnPropertyChanged("HasResults");
+                Completed.Invoke(this, EventArgs.Empty);
             }
         }
         public bool Running {
@@ -92,6 +93,8 @@ namespace NUnit.Runner.ViewModel {
                 OnPropertyChanged();
             }
         }
+
+        public EventHandler Completed;
 
         public Command RunTestsCommand { set; get; }
         public Command RunFailedTestsCommand { set; get; }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grid
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    MinimumWidthRequest="100"
+    x:Class="NUnit.Runner.View.ChartControl">
+    <Polyline x:Name="figure1"
+           Stroke="{StaticResource IgnoredColor}"/>
+
+    <Polyline x:Name="figure2"
+              Stroke="{StaticResource FailureColor}"/>
+
+    <Polyline x:Name="figure3"
+              Stroke="{StaticResource ErrorColor}"/>
+    
+    <Polyline x:Name="figure4"
+              Stroke="{StaticResource PassedColor}"/>
+    
+</Grid>

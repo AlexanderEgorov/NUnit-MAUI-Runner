@@ -5,7 +5,7 @@ using NUnit.Framework.Interfaces;
 using NUnit.Runner.Extensions;
 
 namespace NUnit.Runner.Helpers {
-    internal class ResultSummary {
+    public class ResultSummary {
         private readonly TestRunResult _results;
         
         #region Constructor
