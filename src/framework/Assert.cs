@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using NUnit.Framework.Constraints;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
+using NUnit.Framework.Schemas;
 
 namespace NUnit.Framework
 {
@@ -383,10 +384,7 @@ namespace NUnit.Framework
             // If we are outside any multiple assert block, then throw
             if (TestExecutionContext.CurrentContext.MultipleAssertLevel == 0)
             {
-                Task.Factory.StartNew(() =>
-                {
-                    throw new AssertionException(result.Message);
-                });
+                Singleton.ResultException = new AssertionException(result.Message);
             }
                 
         }

@@ -6,6 +6,7 @@ using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal.Abstractions;
 using NUnit.Framework.Internal.Commands;
 using NUnit.Framework.Internal.Extensions;
+using NUnit.Framework.Schemas;
 
 namespace NUnit.Framework.Internal.Execution
 {
@@ -64,6 +65,11 @@ namespace NUnit.Framework.Internal.Execution
             }
             finally
             {
+                if (Singleton.ResultException != null)
+                {
+                    Context.CurrentResult.RecordException(Singleton.ResultException);
+                    Singleton.ResultException = null;
+                }
                 WorkItemComplete();
             }
         }
