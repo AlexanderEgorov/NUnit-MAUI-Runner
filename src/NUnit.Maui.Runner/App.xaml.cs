@@ -11,10 +11,6 @@ public partial class App : Application {
     public App (IRunnerConfiguration config) {
         InitializeComponent ();
 
-        if(Device.RuntimePlatform == Device.UWP) {
-            Resources["defaultBackground"] = Resources["windowsBackground"];
-        }
-
         _model = new SummaryViewModel();
         MainPage = new NavigationPage(new SummaryView(_model));
         Options = config.ProvideOption();

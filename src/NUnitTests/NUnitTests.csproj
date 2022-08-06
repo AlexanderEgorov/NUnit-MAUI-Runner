@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net6.0-android;net6.0-ios</TargetFrameworks>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>NUnitTests</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<ApplicationTitle>NUnitTests</ApplicationTitle>
+
+		<ApplicationId>com.companyname.nunittests</ApplicationId>
+		<ApplicationIdGuid>d32b68f1-3629-4754-86cf-d02986b4d1aa</ApplicationIdGuid>
+
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+	</ItemGroup>
+
+	<ItemGroup>
+        <Reference Include="NUnit.Framework">
+			<HintPath>..\..\Build\nunit.framework.dll</HintPath>
+		</Reference>
+  	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)'=='net6.0-ios'">
+        <Reference Include="NUnit.Maui.Runner">
+			<HintPath>..\..\Build\iOS\NUnit.Maui.Runner.dll</HintPath>
+		</Reference>
+    </ItemGroup>
+	
+    <ItemGroup Condition="'$(TargetFramework)'=='net6.0-android'">
+        <Reference Include="NUnit.Maui.Runner">
+			<HintPath>..\..\Build\Android\NUnit.Maui.Runner.dll</HintPath>
+		</Reference>
+    </ItemGroup>
+</Project>
