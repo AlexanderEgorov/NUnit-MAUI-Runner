@@ -9,89 +9,94 @@
             <Setter Property="IsBusy" Value="True" />
         </DataTrigger>
     </ContentPage.Triggers>
-    
+
     <ContentPage.Content>
-        <Grid BackgroundColor="{StaticResource ForegroundColor}">
-            <ScrollView>
-                <!-- Content -->
-                <VerticalStackLayout>
-                    <BoxView Style="{StaticResource Divider}"
+        <Grid>
+            <Grid x:Name="container" BackgroundColor="{StaticResource ForegroundColor}">
+                <ScrollView>
+                    <!-- Content -->
+                    <VerticalStackLayout>
+                        <BoxView Style="{StaticResource Divider}"
                              Margin="16,0"/>
-                    
-                    <Label Style="{StaticResource SummaryLabel}"
+
+                        <Label Style="{StaticResource SummaryLabel}"
                            HorizontalOptions="Center"
                            Margin="16,24,16,6"
                            Text="{Binding Results.TestCount}"/>
-                    <Label Style="{StaticResource CaptionLabel}"
+                        <Label Style="{StaticResource CaptionLabel}"
                            HorizontalOptions="Center"
                            Text="{Binding Results.Duration, StringFormat='Total tests in an {0:s\\.fff}s'}"/>
-                    
-                    <!-- Overall results -->
-                    <Label Style="{StaticResource SectionLabel}"
+
+                        <!-- Overall results -->
+                        <Label Style="{StaticResource SectionLabel}"
                            Margin="0,24"
                            HorizontalOptions="Fill"
                            Text="{Binding Results.OverallResult, StringFormat='Overall result: {0}'}"/>
-                    <Grid ColumnDefinitions="*,Auto,*">
-                        <local:ChartControl Grid.Column="0"
-                                            x:Name="chart"
-                                            HorizontalOptions="Center"
-                                            Series="{Binding Results}"/>
-                        <BoxView Style="{StaticResource DividerVertical}" Grid.Column="1"/>
-                        <VerticalStackLayout Grid.Column="2" Spacing="10">
-                            <!-- Passed -->
-                            <Grid ColumnDefinitions="*,Auto,*">
-                                <Label Text="{Binding Results.PassCount}" Margin="8,0,0,0" Grid.Column="0"/>
-                                <Ellipse Style="{StaticResource RoundIcon}" Grid.Column="1" Fill="{StaticResource PassedColor}"/>
-                                <Label Text="Passed" Grid.Column="2"/>
-                            </Grid>
-                            <!-- Errors -->
-                            <Grid ColumnDefinitions="*,Auto,*">
-                                <Label Text="{Binding Results.ErrorCount}" Margin="8,0,0,0" Grid.Column="0"/>
-                                <Ellipse Style="{StaticResource RoundIcon}" Grid.Column="1" Fill="{StaticResource ErrorColor}"/>
-                                <Label Text="Errors" Grid.Column="2"/>
-                            </Grid>
-                            <!-- Failures -->
-                            <Grid ColumnDefinitions="*,Auto,*">
-                                <Label Text="{Binding Results.FailureCount}" Margin="8,0,0,0" Grid.Column="0"/>
-                                <Ellipse Style="{StaticResource RoundIcon}" Grid.Column="1" Fill="{StaticResource FailureColor}"/>
-                                <Label Text="Failures" Grid.Column="2"/>
-                            </Grid>
-                            <!-- Not run -->
-                            <Grid ColumnDefinitions="*,Auto,*">
-                                <Label Text="{Binding Results.NotRunCount}" Margin="8,0,0,0" Grid.Column="0"/>
-                                <Ellipse Style="{StaticResource RoundIcon}" Grid.Column="1" Fill="{StaticResource IgnoredColor}"/>
-                                <Label Text="Not run" Grid.Column="2"/>
-                            </Grid>
-                        </VerticalStackLayout>
-                    </Grid>
-                    
-                    <!-- Errors -->
-                    <Label x:Name="errorElement"
+                        <Grid ColumnDefinitions="*,Auto,*">
+                            <local:ChartControl Grid.Column="0"
+                                                x:Name="chart"
+                                                HorizontalOptions="Center"
+                                                Series="{Binding Results}"/>
+                            <BoxView Style="{StaticResource DividerVertical}" Grid.Column="1"/>
+                            <VerticalStackLayout Grid.Column="2" Spacing="10">
+                                <!-- Passed -->
+                                <Grid ColumnDefinitions="*,Auto,*">
+                                    <Label Text="{Binding Results.PassCount}" Margin="8,0,0,0" Grid.Column="0"/>
+                                    <Ellipse Style="{StaticResource RoundIcon}" Grid.Column="1" Fill="{StaticResource PassedColor}"/>
+                                    <Label Text="Passed" Grid.Column="2"/>
+                                </Grid>
+                                <!-- Errors -->
+                                <Grid ColumnDefinitions="*,Auto,*">
+                                    <Label Text="{Binding Results.ErrorCount}" Margin="8,0,0,0" Grid.Column="0"/>
+                                    <Ellipse Style="{StaticResource RoundIcon}" Grid.Column="1" Fill="{StaticResource ErrorColor}"/>
+                                    <Label Text="Errors" Grid.Column="2"/>
+                                </Grid>
+                                <!-- Failures -->
+                                <Grid ColumnDefinitions="*,Auto,*">
+                                    <Label Text="{Binding Results.FailureCount}" Margin="8,0,0,0" Grid.Column="0"/>
+                                    <Ellipse Style="{StaticResource RoundIcon}" Grid.Column="1" Fill="{StaticResource FailureColor}"/>
+                                    <Label Text="Failures" Grid.Column="2"/>
+                                </Grid>
+                                <!-- Not run -->
+                                <Grid ColumnDefinitions="*,Auto,*">
+                                    <Label Text="{Binding Results.NotRunCount}" Margin="8,0,0,0" Grid.Column="0"/>
+                                    <Ellipse Style="{StaticResource RoundIcon}" Grid.Column="1" Fill="{StaticResource IgnoredColor}"/>
+                                    <Label Text="Not run" Grid.Column="2"/>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <!-- Errors -->
+                        <Label x:Name="errorElement"
                            Margin="16"
                            TextColor="{StaticResource FailureColor}"/>
-                        
-                    <!-- Buttons -->
-                    <Grid ColumnDefinitions="*,*"
+
+                        <!-- Buttons -->
+                        <Grid ColumnDefinitions="*,*"
                           RowDefinitions="Auto,Auto">
-                        <Button Text="Run" Command="{Binding RunTestsCommand}" Grid.Row="0" Grid.Column="0" />
-                        <Button Text="Run Failed" Command="{Binding RunFailedTestsCommand}" Grid.Row="1" Grid.Column="0"  />
-                        <Button Text="All Results" Command="{Binding ViewAllResultsCommand}" Grid.Row="0" Grid.Column="1"  />
-                        <Button Text="Failed Results" Command="{Binding ViewFailedResultsCommand}" Grid.Row="1" Grid.Column="1" />
-                    </Grid>
-                    
-                </VerticalStackLayout>
-            </ScrollView>
-            
-            <!-- Progress -->
-            <VerticalStackLayout VerticalOptions="End" 
+                            <Button Text="Run" Command="{Binding RunTestsCommand}" Grid.Row="0" Grid.Column="0" />
+                            <Button Text="Run Failed" Command="{Binding RunFailedTestsCommand}" Grid.Row="1" Grid.Column="0"  />
+                            <Button Text="All Results" Command="{Binding ViewAllResultsCommand}" Grid.Row="0" Grid.Column="1"  />
+                            <Button Text="Failed Results" Command="{Binding ViewFailedResultsCommand}" Grid.Row="1" Grid.Column="1" />
+                        </Grid>
+
+                    </VerticalStackLayout>
+                </ScrollView>
+
+                <!-- Progress -->
+                <VerticalStackLayout VerticalOptions="End" 
                                  Padding="16,0" 
                                  BackgroundColor="{StaticResource ForegroundColor}">
-                <BoxView Style="{StaticResource Divider}" Margin="0,0,0,8"/>
-                <Label Text="{Binding ExecutingTest}"/>
-                <ProgressBar Progress="{Binding Progress}"
+                    <BoxView Style="{StaticResource Divider}" Margin="0,0,0,8"/>
+                    <Label Text="{Binding ExecutingTest}"/>
+                    <ProgressBar Progress="{Binding Progress}"
                              ProgressColor="{StaticResource AccentColor}"
                              BackgroundColor="{StaticResource ForegroundColor}"/>
-            </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Grid>
+            <Border x:Name="testUIHostContainer" BackgroundColor="{StaticResource ForegroundColor}" IsVisible="False">
+                <Grid x:Name="testUIHost" />
+            </Border>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
