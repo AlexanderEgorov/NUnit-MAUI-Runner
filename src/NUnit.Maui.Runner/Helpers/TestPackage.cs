@@ -46,6 +46,7 @@ namespace NUnit.Runner.Helpers {
             public void TestFinished(ITestResult result) { }
             public void TestOutput(TestOutput output) { }
             public void TestStarted(ITest test) {
+                if(test.Parent == null) return;
                 this.testStarted($"{test.Parent.Name}.{test.Name}");
             }
         }

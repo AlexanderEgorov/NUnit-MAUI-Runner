@@ -378,12 +378,17 @@ namespace NUnit.Framework
         {
             // Record the failure in an <assertion> element
             var result = TestExecutionContext.CurrentContext.CurrentResult;
+            message = $"Assert: #{TestExecutionContext.CurrentContext.AssertCount}" + Environment.NewLine + message;
             result.RecordAssertion(AssertionStatus.Failed, message, GetStackTrace());
             result.RecordTestCompletion();
 
             // If we are outside any multiple assert block, then throw
             if (TestExecutionContext.CurrentContext.MultipleAssertLevel == 0)
             {
+                try {
+                    throw new AssertionException(result.Message);
+                } catch(Exception ex) {
+                }
                 Singleton.ResultException = new AssertionException(result.Message);
             }
                 

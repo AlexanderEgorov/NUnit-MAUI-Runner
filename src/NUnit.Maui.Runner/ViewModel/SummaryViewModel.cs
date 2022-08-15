@@ -53,7 +53,7 @@ namespace NUnit.Runner.ViewModel {
                 _results = value;
                 OnPropertyChanged();
                 OnPropertyChanged("HasResults");
-                Completed.Invoke(this, EventArgs.Empty);
+                Completed?.Invoke(this, EventArgs.Empty);
             }
         }
         public bool Running {
