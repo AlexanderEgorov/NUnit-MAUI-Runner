@@ -9,7 +9,10 @@ namespace NUnit.Runner.Services {
         public override async Task Process(ResultSummary result) {
             if (Options.TcpWriterParameters != null) {
                 try {
-                    await WriteResult(result);
+                    if (Options.TcpWriterParameters.UseTunnelToDevice)
+                        await WriteResultToTunel(result);
+                    else
+                        await WriteResult(result);
                 }
                 catch (Exception exception) {
                     string message = $"Fatal error while trying to send xml result by TCP to {Options.TcpWriterParameters}\n\n{exception.Message}\n\nIs your server running?";
@@ -24,6 +27,15 @@ namespace NUnit.Runner.Services {
 
         private async Task WriteResult(ResultSummary testResult) {
             using (var tcpWriter = new TcpWriter(Options.TcpWriterParameters)) {
+                await tcpWriter.Connect().ConfigureAwait(false);
+                tcpWriter.Write(ResultSummary.ToXml(testResult));
+            }
+        }
+
+        private async Task WriteResultToTunel(ResultSummary testResult)
+        {
+            using (var tcpWriter = new TcpTunnelWriter(Options.TcpWriterParameters))
+            {
                 await tcpWriter.Connect().ConfigureAwait(false);
                 tcpWriter.Write(ResultSummary.ToXml(testResult));
             }

@@ -24,6 +24,8 @@
 
         public int Timeout { get; set; }
 
+        public bool UseTunnelToDevice { get; set; }
+
         public bool Equals(TcpWriterInfo other) =>
             Hostname.Equals(other.Hostname, StringComparison.OrdinalIgnoreCase) && Port == other.Port;
 
