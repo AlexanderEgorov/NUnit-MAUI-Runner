@@ -1,4 +1,5 @@
 ﻿using NUnit.Runner.Messages;
+using System.Diagnostics;
 using System.Net;
 
 #if NETFX_CORE
@@ -37,9 +38,13 @@ namespace NUnit.Runner.Services
                 _server.Server.ReceiveTimeout = 10000;
                 _server.Start();
 
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
                 while (!_server.Pending())
                 {
                     Thread.Sleep(300);
+                    if (sw.ElapsedMilliseconds > _info.Timeout * 1000)
+                        throw new TimeoutException();
                 }
 
                 _client = _server.AcceptTcpClient();
