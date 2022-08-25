@@ -57,7 +57,9 @@ namespace NUnit.Runner.Services
                     if (message.Contains("ping"))
                         break;
                 }
-                _writer = new StreamWriter(_client.GetStream());                
+                _writer = new StreamWriter(_client.GetStream());
+                _writer.Write("pong");
+                _writer.Flush();
             }
             catch (TimeoutException)
             {
@@ -93,9 +95,8 @@ namespace NUnit.Runner.Services
 #if !NETFX_CORE
             string endTag = new string('\n', 2048);
             _writer?.Write(endTag);
+            _writer?.Flush();
             _writer?.Dispose();
-            _client?.Dispose();
-            _server?.Stop();
 #endif
         }
     }
