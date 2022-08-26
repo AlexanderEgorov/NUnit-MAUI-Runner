@@ -16,12 +16,12 @@ Task("Prepare")
         CleanDirectories("./**/obj");
 
         var options = System.Text.RegularExpressions.RegexOptions.None;
-        var pattern = "\\<version\\>.*\\</version\\>";
+        var pattern = "<vers" + "ion>.*</version>";
         FilePath[] files = FindRegexInFiles($"./**/*.*", pattern, options);
         foreach (var file in files) {
             List<string> matches = FindRegexMatchesInFile(file, pattern, options);
             foreach (var match in matches) {
-                ReplaceTextInFiles(file.ToString(), match, "<version>1.0</version>");
+                ReplaceTextInFiles(file.ToString(), match, "<vers" + $"ion>{version}</version>");
             }
         }
     });
