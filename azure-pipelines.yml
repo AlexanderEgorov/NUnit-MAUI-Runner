@@ -15,7 +15,7 @@ jobs:
     variables:
     - name : tagName
       value: $[ replace(variables['Build.SourceBranch'], 'refs/tags/', '') ] 
-    - group: 'Tokens'
+    - group: Tokens
     steps:
       - script: |
           export NUGET_API_KEY=$(NUGET_API_KEY)
