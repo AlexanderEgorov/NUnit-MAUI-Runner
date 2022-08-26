@@ -5,7 +5,7 @@
 string target = Argument("target", "Build");
 string configuration = Argument("configuration", "debug");
 string version = Argument("release-version", "1.0");
-string key = Argument("nuget-key", "1.0");
+string key = Argument("nuget-key", "");
 
 
 Task("Prepare")

@@ -18,10 +18,9 @@ jobs:
     - group: Tokens
     steps:
       - script: |
-          export NUGET_API_KEY=$(NUGET_API_KEY)
           dotnet workload install maui-android
           dotnet workload install maui-ios
           dotnet tool restore
           dotnet cake --configuration release --release-version $(tagName)
-          dotnet cake --target Nuget --release-version $(tagName)
+          dotnet cake --target Nuget --release-version $(tagName) --nuget-key $(NUGET_API_KEY)
         displayName: 'Deploy'
