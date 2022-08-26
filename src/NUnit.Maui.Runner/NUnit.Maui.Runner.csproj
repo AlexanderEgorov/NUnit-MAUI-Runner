@@ -19,7 +19,7 @@
 		<ApplicationId>com.springsoftware.nunit.maui.runner</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>{PROJECT_VERSION}</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<!-- Required for C# Hot Reload -->

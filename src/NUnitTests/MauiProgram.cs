@@ -15,9 +15,16 @@ public static class MauiProgram {
 }
 
 class RunnerConfig : IRunnerConfiguration {
+#if ANDROID
+    private const string localhost = "10.0.2.2";
+#else
+    private const string localhost = "127.0.0.1";
+#endif
 	public TestOptions ProvideOption() {
 		return new TestOptions() {
 			AutoRun = true,
+			TerminateAfterExecution = true,
+			TcpWriterParameters = new TcpWriterInfo(localhost, 13000)
 		};
 	}
 	public IEnumerable<Assembly> ProvideAssemblies() {
