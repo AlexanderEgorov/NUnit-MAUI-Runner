@@ -1,0 +1,17 @@
+trigger:
+  tags:
+    include:
+    - '*'
+  branches:
+    exclude:
+    - master
+
+pool:
+  vmImage: macos-latest
+
+steps:
+- script: |
+    dotnet tool restore
+    dotnet cake --configuration release --version 1.1
+    dotnet cake --target Nuget --version 1.1
+  displayName: 'Deploy'
