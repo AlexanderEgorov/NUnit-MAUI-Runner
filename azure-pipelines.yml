@@ -11,12 +11,14 @@ jobs:
     condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
     pool:
       vmImage: 'macOS-latest'
-    timeoutInMinutes: 5
+    timeoutInMinutes: 10
     variables:
     - name : tagName
       value: $[ replace(variables['Build.SourceBranch'], 'refs/tags/', '') ] 
     steps:
       - script: |
+          dotnet workload install maui-android
+          dotnet workload install maui-ios
           dotnet tool restore
           dotnet cake --configuration release --release-version $(tagName)
           dotnet cake --target Nuget --release-version $(tagName)
