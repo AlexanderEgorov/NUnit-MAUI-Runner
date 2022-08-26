@@ -26,10 +26,10 @@ public void RecieveXmlReport(string fileName) {
 }
 
 public string GetSimulatorUDID() {
-    foreach(var deviceInfo in ListAppleSimulators()) {
-        if (deviceInfo.Name.Equals("iPhone 11")) {
-            return deviceInfo.UDID;
-        }
-    }
+    // foreach(var deviceInfo in ListAppleSimulators()) {
+    //     if (deviceInfo.Name.Equals("iPhone 11")) {
+    //         return deviceInfo.UDID;
+    //     }
+    // }
     return "";
 }
