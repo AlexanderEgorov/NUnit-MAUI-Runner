@@ -7,7 +7,7 @@ trigger:
     - master
 
 jobs:
-  - job: Deploy to Nuget
+  - job: 'Deploy'
     condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
     pool:
       vmImage: 'macOS-latest'
