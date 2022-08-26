@@ -37,7 +37,7 @@ Task("Test")
     .IsDependentOn("Build")
     .Does(() => {
         var settings = new DotNetBuildSettings { Configuration = configuration, OutputDirectory = "./Artifacts" };
-        var androidBundle = "./Artifacts/NUnitTests-Signed.apk";
+        //var androidBundle = "./Artifacts/NUnitTests-Signed.apk";
         var iosBundle = "./Artifacts/NUnitTests.app";
 
         DotNetBuild("./src/NUnitTests", settings);

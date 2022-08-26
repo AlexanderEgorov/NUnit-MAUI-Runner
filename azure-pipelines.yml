@@ -11,12 +11,13 @@ jobs:
     condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
     pool:
       vmImage: 'macOS-latest'
-    timeoutInMinutes: 10
+    timeoutInMinutes: 6
     variables:
     - name : tagName
       value: $[ replace(variables['Build.SourceBranch'], 'refs/tags/', '') ] 
     steps:
       - script: |
+          export NUGET_API_KEY=$(NUGET_API_KEY)
           dotnet workload install maui-android
           dotnet workload install maui-ios
           dotnet tool restore
