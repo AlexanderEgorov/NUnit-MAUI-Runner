@@ -17,4 +17,4 @@ jobs:
           dotnet tool restore
           dotnet cake --configuration release --release-version 1.1
           dotnet cake --target Nuget --release-version 1.1
-      displayName: 'Deploy'
+        displayName: 'Deploy'
