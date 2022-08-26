@@ -12,9 +12,12 @@ jobs:
     pool:
       vmImage: 'macOS-latest'
     timeoutInMinutes: 5
+    variables:
+    - name : tagName
+      value: $[ replace(variables['Build.SourceBranch'], 'refs/tags/', '') ] 
     steps:
       - script: |
           dotnet tool restore
-          dotnet cake --configuration release --release-version 1.1
-          dotnet cake --target Nuget --release-version 1.1
+          dotnet cake --configuration release --release-version $(tagName)
+          dotnet cake --target Nuget --release-version $(tagName)
         displayName: 'Deploy'
